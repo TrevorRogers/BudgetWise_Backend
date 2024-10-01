@@ -1,9 +1,9 @@
-const { fetchAllUserLedger } = require("../model/ledger.model");
+const { fetchAllCurrentUserTransactions } = require('../model/ledger.model');
 
 exports.getAllUserLedger = (req, res, next) => {
   // should update hardcoded value
-  const userId = 1;
-  fetchAllUserLedger(userId)
+  const { userId } = req.context;
+  fetchAllCurrentUserTransactions(userId)
     .then((ledgers) => {
       res.status(200).send({ ledgers });
     })

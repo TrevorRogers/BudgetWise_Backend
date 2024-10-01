@@ -1,16 +1,6 @@
-const db = require("../../db/connection");
-exports.fetchAllUserLedger = (userId) => {
-  //error handling
-  if (isNaN(userId)) {
-    return Promise.reject({
-      status: 400,
-      msg: "username variable not inputted",
-    });
-  }
+const db = require('../../db/connection');
 
-  console.log(userId, "here in model");
-
-  // UPDATE THIS TO MAKE IT DYNAMIC SO THAT DATES ARE NOT HARDCODED
+exports.fetchAllCurrentUserTransactions = (userId) => {
   let SQLQuery = `
   SELECT
     *
@@ -18,21 +8,33 @@ exports.fetchAllUserLedger = (userId) => {
     ledger
   WHERE 
     user_id = $1
-  AND
-    created_at >= '2024-09-01'
-  AND
-    created_at < '2024-10-01'
+  AND created_at >= DATE_TRUNC('month', CURRENT_DATE)
+  AND created_at < DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month'
 `;
 
   return db
     .query(SQLQuery, [userId])
     .then(({ rows }) => {
       // can put some error handling here
-      console.log(rows, "any row");
       return rows;
     })
     .catch((err) => {
       return err;
       // can refactor and do a custom reject status + msg
+    });
+};
+
+exports.selectAllYearFromDateTransactions = (userId) => {
+  return db
+    .query(
+      `SELECT * FROM ledger WHERE user_id = $1 
+    AND
+    created_at >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+    AND
+    created_at < CURDATE()`,
+      [userId]
+    )
+    .then(({ rows }) => {
+      return rows;
     });
 };

@@ -1,13 +1,5 @@
-const db = require("../../db/connection");
+const db = require('../../db/connection');
 exports.fetchAllUserGoals = (userId) => {
-  //error handling
-  if (isNaN(userId)) {
-    return Promise.reject({
-      status: 400,
-      msg: "username variable not inputted",
-    });
-  }
-
   let SQLQuery = `
   SELECT 
     * 
