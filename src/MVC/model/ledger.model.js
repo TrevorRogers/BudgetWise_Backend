@@ -8,7 +8,7 @@ exports.fetchAllUserLedger = (userId) => {
     });
   }
 
-  console.log("here in model");
+  console.log(userId, "here in model");
 
   // UPDATE THIS TO MAKE IT DYNAMIC SO THAT DATES ARE NOT HARDCODED
   let SQLQuery = `
@@ -19,10 +19,9 @@ exports.fetchAllUserLedger = (userId) => {
   WHERE 
     user_id = $1
   AND
-    created_at >= "2024-09-01"
+    created_at >= '2024-09-01'
   AND
-    created_at < "2024-10-01"
-
+    created_at < '2024-10-01'
 `;
 
   return db

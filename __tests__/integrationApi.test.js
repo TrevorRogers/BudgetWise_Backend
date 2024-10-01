@@ -68,10 +68,10 @@ describe("BudgetWise API", () => {
         .expect(200)
         .then(({ body }) => {
           console.log(body);
-          expect(body.ledgers === 9).toBe(true);
+          expect(body.ledgers.length === 9).toBe(true);
           body.ledgers.forEach((ledger) => {
             expect(ledger).toMatchObject({
-              created_at: expect.any(Number),
+              created_at: expect.any(String),
               user_id: expect.any(Number),
               name: expect.any(String),
               category_id: expect.any(Number),
