@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon index.js",
     "setup-dbs": "psql -f ./src/db/setup.sql",
+    "start": "nodemon index.js",
     "seed": "node ./src/db/seeds/run-seed.js",
     "seed-prod": "NODE_ENV=production npm run seed"
   },
