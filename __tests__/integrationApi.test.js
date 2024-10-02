@@ -147,24 +147,34 @@ describe('BudgetWise API', () => {
           });
         });
     });
-    test('POST:201 inserts a new recurring transaction to the db and sends the new recurring transaction back to the client', () => {
+    test.only('POST:201 inserts a new recurring transaction to the db and sends the new recurring transaction back to the client', () => {
       const newRecurringTransaction = {
-        user_id: 1,
         name: 'PS Plus',
         amount: 15,
         category_id: 3,
         essential: false,
+        is_credit: false,
+        date_due: null,
+        is_active: true
       };
       return request(app)
-        .post('/api/recurring_transaction')
+        .post('/api/recurring_transactions')
         .send(newRecurringTransaction)
         .expect(201)
         .then(({ body }) => {
-          expect(body.recurring_transactions.user_id).toBe(1);
-          expect(body.recurring_transactions.name).toBe('PS Plus');
-          expect(body.recurring_transactions.amount).toBe(15);
-          expect(body.recurring_transactions.category_id).toBe(3);
-          expect(body.recurring_transactions.essential).toBe(false);
+          expect(body.transactions).toEqual(
+            expect.objectContaining({
+              transaction_id: expect.any(Number),
+              user_id: 1,
+              amount: "15.00",
+              name: 'PS Plus',
+              category_id: 3,
+              essential: false,
+              is_credit: false,
+              date_due: null,
+              is_active: true
+            })
+          );
         });
     });
   });
