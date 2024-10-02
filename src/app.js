@@ -3,12 +3,14 @@ const cors = require('cors');
 const { postUserLogin } = require('./MVC/controllers/user.controller');
 const { getAllCategories } = require('./MVC/controllers/category.controller');
 const { getAllUserGoals } = require('./MVC/controllers/goals.controller');
+const {postRecurringTransactions} = require('./MVC/controllers/recurringTransactions.controller')
 const {
   getAllUserLedger,
   postTransaction,
 } = require('./MVC/controllers/ledger.controller');
 const {
   getAllUserRecurringTransactions,
+  postRecurringTransaction,
 } = require('./MVC/controllers/recurringTransactions.controller');
 const {
   psqlErrorHandler,
@@ -44,6 +46,7 @@ app.get('/api/ledger', getAllUserLedger);
 app.post('/api/ledger', postTransaction);
 
 app.get('/api/recurring_transactions', getAllUserRecurringTransactions);
+app.post('/api/recurring_transactions', postRecurringTransactions);
 
 app.get('/api/overview', getFinancialOverview);
 
