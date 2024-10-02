@@ -6,6 +6,7 @@ module.exports = [
     amount: 5,
     category_id: 2,
     essential: false,
+    is_credit: false,
   },
   {
     created_at: '2024-09-02 00:00:00',
@@ -14,6 +15,7 @@ module.exports = [
     amount: 10,
     category_id: 9,
     essential: false,
+    is_credit: false,
   },
   {
     created_at: '2024-09-03 00:00:00',
@@ -22,6 +24,7 @@ module.exports = [
     amount: 6,
     category_id: 2,
     essential: false,
+    is_credit: false,
   },
   {
     created_at: '2024-09-08 00:00:00',
@@ -30,6 +33,7 @@ module.exports = [
     amount: 120,
     category_id: 2,
     essential: true,
+    is_credit: false,
   },
   {
     created_at: '2024-09-09 00:00:00',
@@ -38,6 +42,7 @@ module.exports = [
     amount: 8,
     category_id: 4,
     essential: false,
+    is_credit: false,
   },
   {
     created_at: '2024-10-09 00:00:00',
@@ -46,6 +51,7 @@ module.exports = [
     amount: 10,
     category_id: 3,
     essential: false,
+    is_credit: false,
   },
   {
     created_at: '2024-09-15 00:00:00',
@@ -55,6 +61,7 @@ module.exports = [
     category_id: 5,
     essential: true,
     transaction_id: 1,
+    is_credit: false,
   },
   {
     created_at: '2024-09-15 00:00:00',
@@ -74,6 +81,7 @@ module.exports = [
     category_id: 1,
     essential: true,
     transaction_id: 3,
+    is_credit: false,
   },
   {
     created_at: '2024-10-01 00:00:00',
@@ -83,6 +91,7 @@ module.exports = [
     category_id: 5,
     essential: true,
     transaction_id: 1,
+    is_credit: false,
   },
   {
     created_at: '2024-10-01 00:00:00',
@@ -102,5 +111,6 @@ module.exports = [
     category_id: 1,
     essential: true,
     transaction_id: 3,
+    is_credit: false,
   },
 ];

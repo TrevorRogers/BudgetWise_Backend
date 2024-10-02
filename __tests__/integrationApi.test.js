@@ -62,16 +62,15 @@ describe('BudgetWise API', () => {
     });
     test('POST:201 inserts a new goal to the db and sends the new goal back to the client', () => {
       const newGoal = {
-        user_id: 1,
-        name: "Travel",
-        target_amount: "100",
-        amount_saved: "25"
+        name: 'Travel',
+        target_amount: '100',
+        amount_saved: '25',
       };
       return request(app)
         .post('/api/goals')
         .send(newGoal)
         .expect(201)
-        .then(({body}) => {
+        .then(({ body }) => {
           expect(body.goals.user_id).toBe(1);
           expect(body.goals.name).toBe('Travel');
           expect(body.goals.target_amount).toBe('100');
@@ -93,28 +92,37 @@ describe('BudgetWise API', () => {
               name: expect.any(String),
               category_id: expect.any(Number),
               essential: expect.any(Boolean),
+              amount: expect.any(String),
             });
           });
         });
     });
     test('POST:201 inserts a new ledger to the db and sends the new ledger back to the client', () => {
       const newLedger = {
-        created_at: '2024-10-01 00:00:00',
-        user_id: 1,
-        name: "Nandos",
+        name: 'Nandos',
         category_id: 2,
-        essential: false
+        essential: false,
+        amount: 15.35,
+        is_credit: false,
       };
       return request(app)
         .post('/api/ledger')
         .send(newLedger)
         .expect(201)
-        .then(({body}) => {
-          expect(body.ledgers.created_at).toBe('2024-10-01 00:00:00');
-          expect(body.ledgers.user_id).toBe(1);
-          expect(body.ledgers.name).toBe('Nandos');
-          expect(body.ledgers.category_id).toBe(2);
-          expect(body.ledgers.essential).toBe(false);
+        .then(({ body }) => {
+          expect(body.transaction).toEqual(
+            expect.objectContaining({
+              ledger_id: expect.any(Number),
+              created_at: expect.any(String),
+              user_id: 1,
+              name: 'Nandos',
+              category_id: 2,
+              essential: false,
+              is_credit: false,
+              amount: '15.35',
+              transaction_id: null,
+            })
+          );
         });
     });
   });
@@ -139,16 +147,16 @@ describe('BudgetWise API', () => {
     test('POST:201 inserts a new recurring transaction to the db and sends the new recurring transaction back to the client', () => {
       const newRecurringTransaction = {
         user_id: 1,
-        name: "PS Plus",
+        name: 'PS Plus',
         amount: 15,
         category_id: 3,
-        essential: false
+        essential: false,
       };
       return request(app)
         .post('/api/recurring_transaction')
         .send(newRecurringTransaction)
         .expect(201)
-        .then(({body}) => {
+        .then(({ body }) => {
           expect(body.recurring_transactions.user_id).toBe(1);
           expect(body.recurring_transactions.name).toBe('PS Plus');
           expect(body.recurring_transactions.amount).toBe(15);
@@ -202,5 +210,4 @@ describe('BudgetWise API', () => {
   //     })
   //   });
   // });
-
 });
