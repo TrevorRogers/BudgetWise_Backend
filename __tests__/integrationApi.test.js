@@ -112,7 +112,7 @@ describe('BudgetWise API', () => {
               created_at: expect.any(String),
               user_id: expect.any(Number),
               name: expect.any(String),
-              category_id: expect.any(Number),
+              category: expect.any(String),
               essential: expect.any(Boolean),
               amount: expect.any(String),
             });
@@ -149,7 +149,7 @@ describe('BudgetWise API', () => {
     });
   });
   describe('/api/recurring_transactions', () => {
-    test('200 sends an array of ledger objects', () => {
+    test('200 sends an array of recurring transaction objects', () => {
       return request(app)
         .get('/api/recurring_transactions')
         .expect(200)
@@ -160,7 +160,7 @@ describe('BudgetWise API', () => {
               user_id: expect.any(Number),
               name: expect.any(String),
               amount: expect.any(String),
-              category_id: expect.any(Number),
+              category: expect.any(String),
               essential: expect.any(Boolean),
             });
           });

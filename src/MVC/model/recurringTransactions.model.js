@@ -2,7 +2,10 @@ const db = require('../../db/connection');
 
 exports.selectUserRecurringTransactions = (userId) => {
   return db
-    .query('SELECT * FROM recurring_transactions WHERE user_id = $1', [userId])
+    .query(
+      'SELECT recurring_transactions.transaction_id, recurring_transactions.user_id, recurring_transactions.name, recurring_transactions.amount, recurring_transactions.essential, recurring_transactions.is_credit, categories.name AS category FROM recurring_transactions JOIN categories ON recurring_transactions.category_id = categories.category_id WHERE user_id = $1',
+      [userId]
+    )
     .then(({ rows }) => rows);
 };
 

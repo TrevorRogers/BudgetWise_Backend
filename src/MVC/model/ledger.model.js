@@ -3,9 +3,10 @@ const db = require('../../db/connection');
 exports.fetchAllCurrentUserTransactions = (userId) => {
   let SQLQuery = `
   SELECT
-    *
+    ledger.ledger_id, ledger.created_at, ledger.user_id, ledger.name, ledger.amount, ledger.essential, ledger.is_credit, categories.name AS category
   FROM 
     ledger
+  LEFT OUTER JOIN categories ON ledger.category_id = categories.category_id
   WHERE 
     user_id = $1
   AND created_at >= DATE_TRUNC('month', CURRENT_DATE)
@@ -13,16 +14,9 @@ exports.fetchAllCurrentUserTransactions = (userId) => {
   ORDER BY created_at DESC
 `;
 
-  return db
-    .query(SQLQuery, [userId])
-    .then(({ rows }) => {
-      // can put some error handling here
-      return rows;
-    })
-    .catch((err) => {
-      return err;
-      // can refactor and do a custom reject status + msg
-    });
+  return db.query(SQLQuery, [userId]).then(({ rows }) => {
+    return rows;
+  });
 };
 
 exports.selectAllYearFromDateTransactions = (userId) => {
