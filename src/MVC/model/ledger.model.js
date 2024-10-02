@@ -39,3 +39,13 @@ exports.selectAllYearFromDateTransactions = (userId) => {
       return rows;
     });
 };
+
+exports.insertTransaction = (userId, body) => {
+  const { name, amount, category_id, essential, is_credit } = body;
+  return db
+    .query(
+      `INSERT INTO ledger (user_id, name, amount, category_id, essential, is_credit) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [userId, name, amount, category_id, essential, is_credit]
+    )
+    .then(({ rows }) => rows[0]);
+};

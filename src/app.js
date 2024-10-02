@@ -3,7 +3,10 @@ const cors = require('cors');
 const { postUserLogin } = require('./MVC/controllers/user.controller');
 const { getAllCategories } = require('./MVC/controllers/category.controller');
 const { getAllUserGoals } = require('./MVC/controllers/goals.controller');
-const { getAllUserLedger } = require('./MVC/controllers/ledger.controller');
+const {
+  getAllUserLedger,
+  postTransaction,
+} = require('./MVC/controllers/ledger.controller');
 const {
   getAllUserRecurringTransactions,
 } = require('./MVC/controllers/recurringTransactions.controller');
@@ -38,6 +41,7 @@ app.get('/api/categories', getAllCategories);
 app.get('/api/goals', getAllUserGoals);
 
 app.get('/api/ledger', getAllUserLedger);
+app.post('/api/ledger', postTransaction);
 
 app.get('/api/recurring_transactions', getAllUserRecurringTransactions);
 
