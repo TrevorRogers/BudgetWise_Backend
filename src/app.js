@@ -2,8 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const { postUserLogin } = require('./MVC/controllers/user.controller');
 const { getAllCategories } = require('./MVC/controllers/category.controller');
-const { getAllUserGoals } = require('./MVC/controllers/goals.controller');
-const {postRecurringTransactions} = require('./MVC/controllers/recurringTransactions.controller')
+const {
+  getAllUserGoals,
+  postGoal,
+} = require('./MVC/controllers/goals.controller');
 const {
   getAllUserLedger,
   postTransaction,
@@ -41,6 +43,7 @@ app.post('/api/users/auth', postUserLogin);
 app.get('/api/categories', getAllCategories);
 
 app.get('/api/goals', getAllUserGoals);
+app.post('/api/goals', postGoal);
 
 app.get('/api/ledger', getAllUserLedger);
 app.post('/api/ledger', postTransaction);

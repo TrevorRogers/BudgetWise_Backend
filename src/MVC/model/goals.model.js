@@ -12,11 +12,19 @@ exports.fetchAllUserGoals = (userId) => {
   return db
     .query(SQLQuery, [userId])
     .then(({ rows }) => {
-      // error handling goes here
       return rows;
     })
     .catch((err) => {
       return err;
-      // similarly, can put a promise reject here for extra error handling
     });
+};
+
+exports.insertGoal = (userId, body) => {
+  const { name, target_amount, amount_saved, date_due } = body;
+  return db
+    .query(
+      'INSERT INTO goals (user_id, name, target_amount, amount_saved, date_due) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [userId, name, target_amount, amount_saved, date_due]
+    )
+    .then(({ rows }) => rows[0]);
 };

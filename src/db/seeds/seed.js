@@ -72,7 +72,7 @@ const seed = ({
                 goal_id SERIAL PRIMARY KEY NOT NULL,
                 user_id INT NOT NULL REFERENCES users(user_id),
                 name VARCHAR NOT NULL,
-                target_amount NUMERIC(10,2) DEFAULT 0,
+                target_amount NUMERIC(10,2) NOT NULL DEFAULT 0,
                 date_due DATE,
                 amount_saved NUMERIC(10,2) DEFAULT 0
                 );`);
