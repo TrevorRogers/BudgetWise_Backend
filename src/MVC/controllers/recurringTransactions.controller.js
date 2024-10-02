@@ -1,5 +1,6 @@
 const {
-  selectUserRecurringTransactions, insertRecurringTransaction
+  selectUserRecurringTransactions,
+  insertRecurringTransaction,
 } = require('../model/recurringTransactions.model');
 
 exports.getAllUserRecurringTransactions = (req, res, next) => {
@@ -11,14 +12,13 @@ exports.getAllUserRecurringTransactions = (req, res, next) => {
     .catch(next);
 };
 
-exports.postRecurringTransactions = (req, res, next) => {
-
+exports.postRecurringTransaction = (req, res, next) => {
   const { userId } = req.context;
   const { body } = req;
 
   insertRecurringTransaction(userId, body)
     .then((transactions) => {
-      console.log(transactions)
+      console.log(transactions);
       res.status(201).send({ transactions });
     })
     .catch(next);

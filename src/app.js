@@ -49,7 +49,7 @@ app.get('/api/ledger', getAllUserLedger);
 app.post('/api/ledger', postTransaction);
 
 app.get('/api/recurring_transactions', getAllUserRecurringTransactions);
-app.post('/api/recurring_transactions', postRecurringTransactions);
+app.post('/api/recurring_transactions', postRecurringTransaction);
 
 app.get('/api/overview', getFinancialOverview);
 

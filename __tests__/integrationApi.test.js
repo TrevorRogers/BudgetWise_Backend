@@ -147,7 +147,7 @@ describe('BudgetWise API', () => {
           });
         });
     });
-    test.only('POST:201 inserts a new recurring transaction to the db and sends the new recurring transaction back to the client', () => {
+    test('POST:201 inserts a new recurring transaction to the db and sends the new recurring transaction back to the client', () => {
       const newRecurringTransaction = {
         name: 'PS Plus',
         amount: 15,
@@ -155,7 +155,7 @@ describe('BudgetWise API', () => {
         essential: false,
         is_credit: false,
         date_due: null,
-        is_active: true
+        is_active: true,
       };
       return request(app)
         .post('/api/recurring_transactions')
@@ -166,13 +166,13 @@ describe('BudgetWise API', () => {
             expect.objectContaining({
               transaction_id: expect.any(Number),
               user_id: 1,
-              amount: "15.00",
+              amount: '15.00',
               name: 'PS Plus',
               category_id: 3,
               essential: false,
               is_credit: false,
               date_due: null,
-              is_active: true
+              is_active: true,
             })
           );
         });
