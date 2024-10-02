@@ -1,4 +1,4 @@
-const db = require("../../db/connection");
+const db = require('../../db/connection');
 exports.fetchAllCategories = () => {
   // sql string
   let SQLString = `
@@ -6,6 +6,7 @@ exports.fetchAllCategories = () => {
         * 
     FROM
         categories
+        ORDER BY name ASC
     `;
 
   // db.query(x, [y])
@@ -16,7 +17,7 @@ exports.fetchAllCategories = () => {
       if (rows.length === 0) {
         return Promise.reject({
           status: 404,
-          msg: "No categories found by username",
+          msg: 'No categories found by username',
         });
       }
       return rows;
@@ -24,7 +25,7 @@ exports.fetchAllCategories = () => {
     .catch((err) => {
       return Promise.reject({
         status: 500,
-        msg: "Internal Server Error: database query failed",
+        msg: 'Internal Server Error: database query failed',
       });
     });
 };

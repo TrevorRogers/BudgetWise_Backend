@@ -10,6 +10,7 @@ exports.fetchAllCurrentUserTransactions = (userId) => {
     user_id = $1
   AND created_at >= DATE_TRUNC('month', CURRENT_DATE)
   AND created_at < DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month'
+  ORDER BY created_at DESC
 `;
 
   return db
@@ -31,7 +32,7 @@ exports.selectAllYearFromDateTransactions = (userId) => {
     AND
     created_at >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
     AND
-    created_at < CURDATE()`,
+    created_at < CURDATE() ORDER BY created_at DESC`,
       [userId]
     )
     .then(({ rows }) => {

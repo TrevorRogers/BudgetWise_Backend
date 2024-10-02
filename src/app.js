@@ -1,21 +1,27 @@
 const express = require('express');
-const { postUserLogin } = require('./controllers/user.controller');
-const { getAllCategories } = require('./controllers/category.controller');
-const { getAllUserGoals } = require('./controllers/goals.controller');
-const { getAllUserLedger } = require('./controllers/ledger.controller');
+const cors = require('cors');
+const { postUserLogin } = require('./MVC/controllers/user.controller');
+const { getAllCategories } = require('./MVC/controllers/category.controller');
+const { getAllUserGoals } = require('./MVC/controllers/goals.controller');
+const { getAllUserLedger } = require('./MVC/controllers/ledger.controller');
 const {
   getAllUserRecurringTransactions,
-} = require('./controllers/recurringTransactions.controller');
+} = require('./MVC/controllers/recurringTransactions.controller');
 const {
   psqlErrorHandler,
   customErrorHandler,
   serverErrorHandler,
-} = require('../errors');
-const { getFinancialOverview } = require('./controllers/homePage.controller');
-const { getGroupedTransactions } = require('./controllers/budgetController');
+} = require('./errors');
+const {
+  getFinancialOverview,
+} = require('./MVC/controllers/homePage.controller');
+const {
+  getGroupedTransactions,
+} = require('./MVC/controllers/budgetController');
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.use((req, res, next) => {

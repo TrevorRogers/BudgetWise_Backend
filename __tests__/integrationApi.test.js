@@ -2,7 +2,7 @@ const seed = require('../src/db/seeds/seed');
 const data = require('../src/db/data/test-data/index');
 const db = require('../src/db/connection');
 const request = require('supertest');
-const app = require('../src/MVC/app');
+const app = require('../src/app');
 
 beforeAll(() => {
   return seed(data);
@@ -125,6 +125,12 @@ describe('BudgetWise API', () => {
           expect(body.transactions).toMatchObject({
             essential: expect.any(Array),
             nonEssential: expect.any(Array),
+          });
+          expect(body.transactions.essential).toBeSortedBy('created_at', {
+            descending: true,
+          });
+          expect(body.transactions.nonEssential).toBeSortedBy('created_at', {
+            descending: true,
           });
         });
     });

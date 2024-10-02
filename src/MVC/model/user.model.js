@@ -1,11 +1,11 @@
-const db = require("../../db/connection");
+const db = require('../../db/connection');
 
-exports.fetchPostUsernameCredentials = (username) => {
+exports.selectUserByUsername = (username) => {
   //error handling
   if (!username) {
     return Promise.reject({
       status: 400,
-      msg: "username variable not inputted",
+      msg: 'username variable not inputted',
     });
   }
 
@@ -25,17 +25,17 @@ exports.fetchPostUsernameCredentials = (username) => {
       if (rows.length === 0) {
         return Promise.reject({
           status: 404,
-          msg: "No users found by username",
+          msg: 'No users found by username',
         });
       }
       return rows[0];
     })
     .catch((err) => {
-      console.log("database error");
+      console.log('database error');
       console.error(err);
       return Promise.reject({
         status: 500,
-        msg: "Internal Server Error: database query failed",
+        msg: 'Internal Server Error: database query failed',
       });
     });
 };
