@@ -30,9 +30,11 @@ exports.insertGoal = (userId, body) => {
 };
 
 exports.removeGoalById = (goal_id) => {
-  return db.query('DELETE FROM goals WHERE goal_id = $1;', [goal_id])
-  .then((result)=> {
-     if(result.rowCount === 0) return Promise.reject({msg: "Not found"})
-      return result
-  })
+  return db
+    .query('DELETE FROM goals WHERE goal_id = $1;', [goal_id])
+    .then((result) => {
+      if (result.rowCount === 0)
+        return Promise.reject({ status: 404, msg: 'Not found' });
+      return result;
+    });
 };

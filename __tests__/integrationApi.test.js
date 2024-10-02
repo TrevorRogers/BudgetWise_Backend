@@ -83,6 +83,22 @@ describe('BudgetWise API', () => {
     test('DELETE:204 deletes the given goal by goal_id', () => {
       return request(app).delete('/api/goals/1').expect(204);
     });
+    test('DELETE 404 responds with an appropriate status and error message when given a non-existent id', () => {
+      return request(app)
+        .delete('/api/goals/999')
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe('Not found');
+        });
+    });
+    test('DELETE:400 responds with an appropriate status and error message when given an invalid id', () => {
+      return request(app)
+        .delete('/api/goals/not-an-id')
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe('Bad request');
+        });
+    });
   });
   describe('/api/ledger', () => {
     test('200 sends an array of ledger objects', () => {
@@ -226,23 +242,23 @@ describe('BudgetWise API', () => {
   //     })
   //   });
   // });
-  describe("/api", ()=> {
-    test("200: serves up a json representation of all the available endpoints of the api", () => {
-        return request(app)
-            .get("/api")
-            .expect(200)
-            .then(({body}) => {
-                expect(body.endpoint).toMatchObject({
-                    "GET /api/categories": expect.any(Object),
-                    "GET /api/goals": expect.any(Object),
-                    "POST /api/goals": expect.any(Object),
-                    "POST /api/ledger": expect.any(Object),
-                    "GET /api/recurring_transactions": expect.any(Object),
-                    "POST /api/recurring_transactions": expect.any(Object),
-                    "GET /api/overview": expect.any(Object),
-                    "GET /api/budget": expect.any(Object),
-                })     
-            })
-        })
-    })
+  describe('/api', () => {
+    test('200: serves up a json representation of all the available endpoints of the api', () => {
+      return request(app)
+        .get('/api')
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.endpoint).toMatchObject({
+            'GET /api/categories': expect.any(Object),
+            'GET /api/goals': expect.any(Object),
+            'POST /api/goals': expect.any(Object),
+            'POST /api/ledger': expect.any(Object),
+            'GET /api/recurring_transactions': expect.any(Object),
+            'POST /api/recurring_transactions': expect.any(Object),
+            'GET /api/overview': expect.any(Object),
+            'GET /api/budget': expect.any(Object),
+          });
+        });
+    });
+  });
 });
