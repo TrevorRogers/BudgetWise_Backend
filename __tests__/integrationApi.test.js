@@ -60,6 +60,24 @@ describe('BudgetWise API', () => {
           });
         });
     });
+    test('POST:201 inserts a new goal to the db and sends the new goal back to the client', () => {
+      const newGoal = {
+        user_id: 1,
+        name: "Travel",
+        target_amount: "100",
+        amount_saved: "25"
+      };
+      return request(app)
+        .post('/api/goals')
+        .send(newGoal)
+        .expect(201)
+        .then(({body}) => {
+          expect(body.goals.user_id).toBe(1);
+          expect(body.goals.name).toBe('Travel');
+          expect(body.goals.target_amount).toBe('100');
+          expect(body.goals.amount_saved).toBe('25');
+        });
+    });
   });
   describe('/api/ledger', () => {
     test('200 sends an array of ledger objects', () => {
@@ -79,6 +97,26 @@ describe('BudgetWise API', () => {
           });
         });
     });
+    test('POST:201 inserts a new ledger to the db and sends the new ledger back to the client', () => {
+      const newLedger = {
+        created_at: '2024-10-01 00:00:00',
+        user_id: 1,
+        name: "Nandos",
+        category_id: 2,
+        essential: false
+      };
+      return request(app)
+        .post('/api/ledger')
+        .send(newLedger)
+        .expect(201)
+        .then(({body}) => {
+          expect(body.ledgers.created_at).toBe('2024-10-01 00:00:00');
+          expect(body.ledgers.user_id).toBe(1);
+          expect(body.ledgers.name).toBe('Nandos');
+          expect(body.ledgers.category_id).toBe(2);
+          expect(body.ledgers.essential).toBe(false);
+        });
+    });
   });
   describe('/api/recurring_transactions', () => {
     test('200 sends an array of ledger objects', () => {
@@ -96,6 +134,26 @@ describe('BudgetWise API', () => {
               essential: expect.any(Boolean),
             });
           });
+        });
+    });
+    test('POST:201 inserts a new recurring transaction to the db and sends the new recurring transaction back to the client', () => {
+      const newRecurringTransaction = {
+        user_id: 1,
+        name: "PS Plus",
+        amount: 15,
+        category_id: 3,
+        essential: false
+      };
+      return request(app)
+        .post('/api/recurring_transaction')
+        .send(newRecurringTransaction)
+        .expect(201)
+        .then(({body}) => {
+          expect(body.recurring_transactions.user_id).toBe(1);
+          expect(body.recurring_transactions.name).toBe('PS Plus');
+          expect(body.recurring_transactions.amount).toBe(15);
+          expect(body.recurring_transactions.category_id).toBe(3);
+          expect(body.recurring_transactions.essential).toBe(false);
         });
     });
   });
@@ -144,4 +202,5 @@ describe('BudgetWise API', () => {
   //     })
   //   });
   // });
+
 });
