@@ -2,9 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const { postUserLogin } = require('./MVC/controllers/user.controller');
 const { getAllCategories } = require('./MVC/controllers/category.controller');
+const { getApi } = require('./MVC/controllers/enpointsController')
 const {
   getAllUserGoals,
   postGoal,
+  deleteGoalById,
 } = require('./MVC/controllers/goals.controller');
 const {
   getAllUserLedger,
@@ -44,6 +46,7 @@ app.get('/api/categories', getAllCategories);
 
 app.get('/api/goals', getAllUserGoals);
 app.post('/api/goals', postGoal);
+app.delete('/api/goals/:goal_id', deleteGoalById)
 
 app.get('/api/ledger', getAllUserLedger);
 app.post('/api/ledger', postTransaction);
@@ -54,6 +57,8 @@ app.post('/api/recurring_transactions', postRecurringTransaction);
 app.get('/api/overview', getFinancialOverview);
 
 app.get('/api/budget', getGroupedTransactions);
+
+app.get('/api', getApi);
 
 app.use(psqlErrorHandler);
 app.use(customErrorHandler);

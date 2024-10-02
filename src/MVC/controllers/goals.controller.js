@@ -1,4 +1,4 @@
-const { fetchAllUserGoals, insertGoal } = require('../model/goals.model');
+const { fetchAllUserGoals, insertGoal, removeGoalById} = require('../model/goals.model');
 
 exports.getAllUserGoals = (req, res, next) => {
   const { userId } = req.context;
@@ -19,4 +19,11 @@ exports.postGoal = (req, res, next) => {
       res.status(201).send({ goal });
     })
     .catch(next);
+};
+
+exports.deleteGoalById = (req, res, next) => {
+  const { goal_id } = req.params;
+  removeGoalById(goal_id).then((result) => {
+          res.status(204).send();      
+  }).catch(next)
 };
