@@ -1,0 +1,139 @@
+{
+  "GET /api/categories": {
+    "description": "serves up an array of all category objects",
+    "exampleResponse": {
+      "categories": [
+        {
+          "name": "utilities",
+          "description": null
+        },
+        {
+          "name": "food",
+          "description": null
+        }
+      ]
+    }
+  },
+  "GET /api/overview": {
+    "description": "serves up derived data relevant to the home page",
+    "exampleResponse": {
+      "overview": {
+        "income": 4000,
+        "monthlyBills": 675.48,
+        "spending": 403.23,
+        "remainingBalance": 2921.29,
+        "totalGoalsProgress": 300,
+        "totalGoalsTarget": 5000
+      }
+    }
+  },
+  "GET /api/budget": {
+    "description": "serves up all ledger transactions, divided into essential and non-essential arrays",
+    "exampleResponse": {
+      "transactions": {
+        "essential": [
+          {
+            "ledger_id": 1,
+            "user_id": 1,
+            "name": "Energy",
+            "amount": "250.00",
+            "category": "utility",
+            "essential": true,
+            "is_credit": false,
+            "transaction_id": 2
+          }
+        ],
+        "nonEssential": [
+          {
+            "ledger_id": 1,
+            "user_id": 1,
+            "name": "Starbucks",
+            "amount": "5.00",
+            "category": "food",
+            "essential": false,
+            "is_credit": false,
+            "transaction_id": null
+          }
+        ]
+      }
+    }
+  },
+  "GET /api/goals": {
+    "description": "serves up an array of objects containing user set goals",
+    "exampleResponse": {
+      "goals": [
+        {
+          "goal_id": 1,
+          "user_id": 1,
+          "name": "holiday",
+          "target_amount": "3000.00",
+          "amount_saved": "500.00",
+          "date_due": "2024-08-23 00:00:00"
+        }
+      ]
+    }
+  },
+  "POST /api/goals": {
+    "description": "creates a new goal entry",
+    "exampleResponse": {
+      "goal": {
+        "goal_id": 1,
+        "user_id": 1,
+        "name": "holiday",
+        "target_amount": "3000.00",
+        "amount_saved": "500.00",
+        "date_due": "2024-08-23 00:00:00"
+      }
+    }
+  },
+  "GET /api/recurring_transaction": {
+    "description": "serves up an array of recurring transactions",
+    "exampleResponse": {
+      "recurring_transactions": [
+        {
+          "transaction_id": 1,
+          "user_id": 1,
+          "amount": "15.00",
+          "name": "PS Plus",
+          "category": "entertainment",
+          "essential": false,
+          "is_credit": false,
+          "date_due": null,
+          "is_active": true
+        }
+      ]
+    }
+  },
+  "POST /api/ledger": {
+    "description": "records a new transaction in the ledger table",
+    "exampleResponse": {
+      "transaction": {
+        "ledger_id": 1,
+        "created_at": "2024-08-23 00:00:00",
+        "user_id": 1,
+        "name": "Nandos",
+        "category_id": 2,
+        "essential": false,
+        "is_credit": false,
+        "amount": "15.35",
+        "transaction_id": null
+      }
+    }
+  },
+  "POST /api/recurring_transactions": {
+    "description": "creates a new recurring transaction and adds an entry to the ledger",
+    "exampleResponse": {
+      "recTransaction": {
+        "transaction_id": 1,
+        "user_id": 1,
+        "amount": "15.00",
+        "name": "PS Plus",
+        "category_id": 3,
+        "essential": false,
+        "is_credit": false,
+        "date_due": null,
+        "is_active": true
+      }
+    }
+  }
+}
