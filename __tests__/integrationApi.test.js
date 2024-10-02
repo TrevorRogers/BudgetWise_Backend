@@ -162,7 +162,7 @@ describe('BudgetWise API', () => {
         .send(newRecurringTransaction)
         .expect(201)
         .then(({ body }) => {
-          expect(body.transactions).toEqual(
+          expect(body.recTransaction).toEqual(
             expect.objectContaining({
               transaction_id: expect.any(Number),
               user_id: 1,

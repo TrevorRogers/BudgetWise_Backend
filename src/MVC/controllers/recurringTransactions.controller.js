@@ -1,3 +1,4 @@
+const { insertTransaction } = require('../model/ledger.model');
 const {
   selectUserRecurringTransactions,
   insertRecurringTransaction,
@@ -17,9 +18,10 @@ exports.postRecurringTransaction = (req, res, next) => {
   const { body } = req;
 
   insertRecurringTransaction(userId, body)
-    .then((transactions) => {
-      console.log(transactions);
-      res.status(201).send({ transactions });
+    .then((recTransaction) => {
+      insertTransaction(userId, recTransaction).then((transaction) => {
+        res.status(201).send({ recTransaction });
+      });
     })
     .catch(next);
 };
