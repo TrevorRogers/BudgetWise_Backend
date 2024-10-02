@@ -86,7 +86,7 @@
       }
     }
   },
-  "GET /api/recurring_transaction": {
+  "GET /api/recurring_transactions": {
     "description": "serves up an array of recurring transactions",
     "exampleResponse": {
       "recurring_transactions": [

@@ -1,7 +1,8 @@
 const fs = require("fs/promises")
 
 exports.selectApi = () => {
-    return fs.readFile(`${__dirname}/../../endpoints.json`, 'utf-8').then((data)=> {
+    return fs.readFile(`${__dirname}/../../../endpoints.json`, 'utf-8').then((data)=> {
+        console.log(data)
         const endpoints = JSON.parse(data);
         return endpoints
         })    

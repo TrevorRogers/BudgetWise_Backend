@@ -80,7 +80,7 @@ describe('BudgetWise API', () => {
           );
         });
     });
-    test.only('DELETE:204 deletes the given goal by goal_id', () => {
+    test('DELETE:204 deletes the given goal by goal_id', () => {
       return request(app).delete('/api/goals/1').expect(204);
     });
   });
@@ -233,11 +233,12 @@ describe('BudgetWise API', () => {
             .expect(200)
             .then(({body}) => {
                 expect(body.endpoint).toMatchObject({
-                    "GET /api": expect.any(Object),
                     "GET /api/categories": expect.any(Object),
                     "GET /api/goals": expect.any(Object),
-                    "GET /api/ledger": expect.any(Object),
+                    "POST /api/goals": expect.any(Object),
+                    "POST /api/ledger": expect.any(Object),
                     "GET /api/recurring_transactions": expect.any(Object),
+                    "POST /api/recurring_transactions": expect.any(Object),
                     "GET /api/overview": expect.any(Object),
                     "GET /api/budget": expect.any(Object),
                 })     
