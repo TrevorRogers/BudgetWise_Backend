@@ -1,17 +1,22 @@
-const { fetchAllUserGoals } = require('../model/goals.model');
+const { fetchAllUserGoals, insertGoal } = require('../model/goals.model');
 
 exports.getAllUserGoals = (req, res, next) => {
-  // THIS NEEDS TO BE CHANGED !!!!!!!!!!!!!!!
-  // const { userID } = res.user; // we will get the object from the res object, for now hard code the value
-  //
-  // temporary hard coded value
-  const { userId } = req.context; // should update in future
+  const { userId } = req.context;
 
   fetchAllUserGoals(userId)
     .then((goals) => {
       res.status(200).send({ goals });
     })
-    .catch((err) => {
-      next(err);
-    });
+    .catch(next);
+};
+
+exports.postGoal = (req, res, next) => {
+  const { userId } = req.context;
+  const { body } = req;
+
+  insertGoal(userId, body)
+    .then((goal) => {
+      res.status(201).send({ goal });
+    })
+    .catch(next);
 };

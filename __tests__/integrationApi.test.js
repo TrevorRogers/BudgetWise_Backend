@@ -12,9 +12,8 @@ afterAll(() => {
 });
 
 describe('BudgetWise API', () => {
-  //user test
-  describe('api/users', () => {
-    test('200,POST, AUTH, returns an object with a list of users as value', () => {
+  describe('api/users/auth', () => {
+    test('POST: 200, returns a logged in username', () => {
       const requestBody = { username: 'username', password: 'password' };
       return request(app)
         .post('/api/users/auth')
@@ -26,7 +25,6 @@ describe('BudgetWise API', () => {
         });
     });
   });
-  // ADD MORE TESTS !!!!!!!!!!!!!!!!!!!
   describe('/api/categories', () => {
     test('200 sends an array of category objects', () => {
       return request(app)
@@ -42,7 +40,6 @@ describe('BudgetWise API', () => {
         });
     });
   });
-  // ADD MORE TESTS !!!!!!!!!!!!!!!!!!!
   describe('/api/goals', () => {
     test('200 sends an array of goals objects', () => {
       return request(app)
@@ -63,18 +60,24 @@ describe('BudgetWise API', () => {
     test('POST:201 inserts a new goal to the db and sends the new goal back to the client', () => {
       const newGoal = {
         name: 'Travel',
-        target_amount: '100',
-        amount_saved: '25',
+        target_amount: 100,
+        amount_saved: 25,
       };
       return request(app)
         .post('/api/goals')
         .send(newGoal)
         .expect(201)
         .then(({ body }) => {
-          expect(body.goals.user_id).toBe(1);
-          expect(body.goals.name).toBe('Travel');
-          expect(body.goals.target_amount).toBe('100');
-          expect(body.goals.amount_saved).toBe('25');
+          expect(body.goal).toEqual(
+            expect.objectContaining({
+              goal_id: expect.any(Number),
+              user_id: 1,
+              name: 'Travel',
+              target_amount: '100.00',
+              amount_saved: '25.00',
+              date_due: null,
+            })
+          );
         });
     });
   });
