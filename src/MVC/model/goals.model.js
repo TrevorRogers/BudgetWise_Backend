@@ -38,3 +38,18 @@ exports.removeGoalById = (goal_id) => {
       return result;
     });
 };
+
+exports.updateGoalsById = (goal_id, inc_amount_saved, target_amount=0) => {
+  const queryStr = `UPDATE goals
+      SET amount_saved = amount_saved + $2,
+       target_amount = target_amount + $3
+      WHERE goals.goal_id = $1
+      RETURNING *;`
+      const queryVals = [goal_id, inc_amount_saved, target_amount]
+
+  return db.query(queryStr, queryVals).then(({rows}) => {
+      if (rows.length === 0) return Promise.reject({msg: "Not found"})
+          return rows[0];
+      
+  })
+}

@@ -2,6 +2,7 @@ const { insertTransaction } = require('../model/ledger.model');
 const {
   selectUserRecurringTransactions,
   insertRecurringTransaction,
+  updateAmountById
 } = require('../model/recurringTransactions.model');
 
 exports.getAllUserRecurringTransactions = (req, res, next) => {
@@ -24,4 +25,12 @@ exports.postRecurringTransaction = (req, res, next) => {
       });
     })
     .catch(next);
+};
+
+exports.patchRecurringAmount = (req, res, next) => {
+  const {transaction_id} = req.params;
+  const {inc_amount} = req.body
+  updateAmountById(transaction_id, inc_amount).then((updatedAmount)=> {
+      res.status(200).send({updatedAmount})
+  }).catch(next)
 };

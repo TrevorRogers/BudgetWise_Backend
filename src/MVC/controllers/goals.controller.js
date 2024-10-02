@@ -1,4 +1,4 @@
-const { fetchAllUserGoals, insertGoal, removeGoalById} = require('../model/goals.model');
+const { fetchAllUserGoals, insertGoal, removeGoalById, updateGoalsById} = require('../model/goals.model');
 
 exports.getAllUserGoals = (req, res, next) => {
   const { userId } = req.context;
@@ -27,3 +27,11 @@ exports.deleteGoalById = (req, res, next) => {
           res.status(204).send();      
   }).catch(next)
 };
+
+exports.patchGoals = (req, res, next) => {
+  const {goal_id} = req.params;
+  const {inc_amount_saved, target_amount} = req.body
+  updateGoalsById(goal_id, inc_amount_saved, target_amount).then((updatedGoal)=> {
+      res.status(200).send({updatedGoal})
+  })
+}

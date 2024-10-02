@@ -4,7 +4,7 @@ const db = require('../src/db/connection');
 const request = require('supertest');
 const app = require('../src/app');
 
-beforeAll(() => {
+beforeEach(() => {
   return seed(data);
 });
 afterAll(() => {
@@ -97,6 +97,21 @@ describe('BudgetWise API', () => {
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe('Bad request');
+        });
+    });
+    test('PATCH:200 adds or subtracts from the amount_saved property ', () => {
+      const newAmount = {
+        inc_amount_saved: 10,
+
+      };
+      return request(app)
+        .patch('/api/goals/1')
+        .send(newAmount)
+        .expect(200)
+        .then(({body}) => {
+          console.log(body)
+          expect(body.updatedGoal.amount_saved).toBe("60.00");
+          expect(body.updatedGoal.target_amount).toBe("150.00");
         });
     });
   });
@@ -194,6 +209,19 @@ describe('BudgetWise API', () => {
               is_active: true,
             })
           );
+        });
+    });
+    test('PATCH:200 adds or subtracts from the amount property ', () => {
+      const newRecurringAmount = {
+        inc_amount: -100,
+
+      };
+      return request(app)
+        .patch('/api/recurring_transactions/1')
+        .send(newRecurringAmount)
+        .expect(200)
+        .then(({body}) => {
+          expect(body.updatedAmount.amount).toBe("600.00");
         });
     });
   });
