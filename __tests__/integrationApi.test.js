@@ -315,7 +315,9 @@ describe('BudgetWise API', () => {
             'POST /api/recurring_transactions': expect.any(Object),
             'GET /api/overview': expect.any(Object),
             'GET /api/budget': expect.any(Object),
-            'GET /api/': expect.any(Object),
+            'GET /api/reports': expect.any(Object),
+            'PATCH /api/recurring_transactions': expect.any(Object),
+            'DELETE /api/goals': expect.any(Object),
           });
         });
     });
