@@ -137,8 +137,7 @@
     }
   },
   "GET /api/reports": {
-    "description": "creates objects with informations for graphs on the report page",
-    
+    "description": "creates objects with informations for graphs on the report page"
   },
   "PATCH /api/goals": {
     "description": "updates goals by adding amount_saved and target_amount in goal entry",
@@ -158,7 +157,6 @@
     }
   },
   "DELETE /api/goals": {
-    "description": "deletes a goal entry by id",
- 
+    "description": "deletes a goal entry by id"
   }
 }
