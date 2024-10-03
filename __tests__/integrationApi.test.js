@@ -102,16 +102,14 @@ describe('BudgetWise API', () => {
     test('PATCH:200 adds or subtracts from the amount_saved property ', () => {
       const newAmount = {
         inc_amount_saved: 10,
-
       };
       return request(app)
         .patch('/api/goals/1')
         .send(newAmount)
         .expect(200)
-        .then(({body}) => {
-          console.log(body)
-          expect(body.updatedGoal.amount_saved).toBe("60.00");
-          expect(body.updatedGoal.target_amount).toBe("150.00");
+        .then(({ body }) => {
+          expect(body.updatedGoal.amount_saved).toBe('60.00');
+          expect(body.updatedGoal.target_amount).toBe('150.00');
         });
     });
   });
@@ -214,14 +212,13 @@ describe('BudgetWise API', () => {
     test('PATCH:200 adds or subtracts from the amount property ', () => {
       const newRecurringAmount = {
         inc_amount: -100,
-
       };
       return request(app)
         .patch('/api/recurring_transactions/1')
         .send(newRecurringAmount)
         .expect(200)
-        .then(({body}) => {
-          expect(body.updatedAmount.amount).toBe("600.00");
+        .then(({ body }) => {
+          expect(body.updatedAmount.amount).toBe('600.00');
         });
     });
   });
@@ -261,15 +258,48 @@ describe('BudgetWise API', () => {
         });
     });
   });
-  // describe('/api/stats', () => {
-  //   test('200: sends annual transaction data', () => {
-  //     return request(app).get('/api/stats').expect(200).then(({body}) => {
-  //       expect(body.stats).toMatchObject({
-
-  //       })
-  //     })
-  //   });
-  // });
+  describe('/api/reports', () => {
+    test('200: sends monthly reports data', () => {
+      return request(app)
+        .get('/api/reports/october')
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.reports).toMatchObject({
+            spentVsSaved: {
+              spending: 960,
+              saved: 1440,
+            },
+            essentialVsNonEssential: {
+              essential: 950,
+              nonEssential: 10,
+            },
+            spendingByCategory: {
+              utilities: 250,
+              food: 0,
+              entertainment: 10,
+              transportation: 0,
+              housing: 700,
+              other: 0,
+              health: 0,
+              childcare: 0,
+              clothing: 0,
+              groceries: 0,
+              'animal care': 0,
+            },
+            dailyBalances: {
+              'Oct 1': {
+                balance: 1450,
+                transactionNames: ['energy', 'mortgage'],
+              },
+              'Oct 3': {
+                balance: 1440,
+                transactionNames: ['movie'],
+              },
+            },
+          });
+        });
+    });
+  });
   describe('/api', () => {
     test('200: serves up a json representation of all the available endpoints of the api', () => {
       return request(app)

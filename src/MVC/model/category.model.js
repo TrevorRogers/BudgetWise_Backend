@@ -1,4 +1,5 @@
 const db = require('../../db/connection');
+
 exports.fetchAllCategories = () => {
   // sql string
   let SQLString = `

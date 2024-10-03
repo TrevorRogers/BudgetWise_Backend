@@ -45,7 +45,7 @@ module.exports = [
     is_credit: false,
   },
   {
-    created_at: '2024-10-09 00:00:00',
+    created_at: '2024-10-03 00:00:00',
     user_id: 1,
     name: 'movie',
     amount: 10,
