@@ -6,6 +6,7 @@ const recurringTransactionsRouter = require('./recurring-transactions-router');
 const usersRouter = require('./users-router');
 const overviewRouter = require('./overview-router');
 const budgetRouter = require('./budget-router');
+const reportsRouter = require('./reports-router');
 const { getApi } = require('../MVC/controllers/endpointsController');
 
 // API
@@ -18,5 +19,6 @@ apiRouter.use('/recurring_transactions', recurringTransactionsRouter);
 apiRouter.use('/overview', overviewRouter);
 apiRouter.use('/budget', budgetRouter);
 apiRouter.use('/users', usersRouter);
+apiRouter.use('/reports', reportsRouter);
 
 module.exports = apiRouter;

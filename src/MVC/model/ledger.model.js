@@ -22,11 +22,15 @@ exports.fetchAllCurrentUserTransactions = (userId) => {
 exports.selectAllYearFromDateTransactions = (userId) => {
   return db
     .query(
-      `SELECT * FROM ledger WHERE user_id = $1 
+      `SELECT
+    ledger.ledger_id, ledger.created_at, ledger.user_id, ledger.name, ledger.amount, ledger.essential, ledger.is_credit, categories.name AS category
+  FROM 
+    ledger
+  LEFT OUTER JOIN categories ON ledger.category_id = categories.category_id WHERE user_id = $1 
     AND
-    created_at >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+    created_at >= (CURRENT_DATE - INTERVAL '1 YEAR')
     AND
-    created_at < CURDATE() ORDER BY created_at DESC`,
+    created_at <= CURRENT_DATE ORDER BY created_at DESC`,
       [userId]
     )
     .then(({ rows }) => {
