@@ -135,5 +135,30 @@
         "is_active": true
       }
     }
+  },
+  "GET /api/reports": {
+    "description": "creates objects with informations for graphs on the report page",
+    
+  },
+  "PATCH /api/goals": {
+    "description": "updates goals by adding amount_saved and target_amount in goal entry",
+    "exampleResponse": {
+      "goal": {
+        "target_amount": "50.00",
+        "amount_saved": "25.00"
+      }
+    }
+  },
+  "PATCH /api/recurring_transactions": {
+    "description": "updates recurring_transactions by adding to amount",
+    "exampleResponse": {
+      "recurring_transactions": {
+        "amount": "50.00"
+      }
+    }
+  },
+  "DELETE /api/goals": {
+    "description": "deletes a goal entry by id",
+ 
   }
 }
