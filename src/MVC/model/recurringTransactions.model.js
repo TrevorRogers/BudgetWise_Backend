@@ -42,7 +42,10 @@ exports.insertRecurringTransaction = (userId, body) => {
 };
 
 exports.updateAmountById = (transaction_id, inc_amount) => {
-  const queryStr = ``
+  const queryStr = `UPDATE recurring_transactions
+  SET amount = amount + $2
+  WHERE recurring_transactions.transaction_id = $1
+  RETURNING *;`
       const queryVals = [transaction_id, inc_amount]
 
   return db.query(queryStr, queryVals).then(({rows}) => {
