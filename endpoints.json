@@ -139,7 +139,7 @@
   "GET /api/reports": {
     "description": "creates objects with informations for graphs on the report page"
   },
-  "PATCH /api/goals": {
+  "PATCH /api/goals/:goal_id": {
     "description": "updates goals by adding amount_saved and target_amount in goal entry",
     "exampleResponse": {
       "goal": {
