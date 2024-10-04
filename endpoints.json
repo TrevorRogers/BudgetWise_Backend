@@ -123,7 +123,7 @@
   "POST /api/recurring_transactions": {
     "description": "creates a new recurring transaction and adds an entry to the ledger",
     "exampleResponse": {
-      "recTransaction": {
+      "recurring_transaction": {
         "transaction_id": 1,
         "user_id": 1,
         "amount": "15.00",
@@ -137,22 +137,67 @@
     }
   },
   "GET /api/reports": {
-    "description": "creates objects with informations for graphs on the report page"
+    "description": "creates objects with informations for graphs on the report page",
+    "exampleResponse": {
+      "spentVsSaved": {
+        "spending": 960,
+        "saved": 1440
+      },
+      "essentialVsNonEssential": {
+        "essential": 950,
+        "nonEssential": 10
+      },
+      "spendingByCategory": {
+        "utilities": 250,
+        "food": 0,
+        "entertainment": 10,
+        "transportation": 0,
+        "housing": 700,
+        "other": 0,
+        "health": 0,
+        "childcare": 0,
+        "clothing": 0,
+        "groceries": 0,
+        "animal care": 0
+      },
+      "dailyBalances": {
+        "Oct 1": {
+          "balance": 1450,
+          "transactionNames": ["energy", "mortgage"]
+        },
+        "Oct 3": {
+          "balance": 1440,
+          "transactionNames": ["movie"]
+        }
+      }
+    }
   },
   "PATCH /api/goals/:goal_id": {
     "description": "updates goals by adding amount_saved and target_amount in goal entry",
     "exampleResponse": {
       "goal": {
-        "target_amount": "50.00",
-        "amount_saved": "25.00"
+        "goal_id": 1,
+        "user_id": 1,
+        "name": "holiday",
+        "target_amount": "3000.00",
+        "amount_saved": "500.00",
+        "date_due": "2025-08-23 00:00:00"
       }
     }
   },
   "PATCH /api/recurring_transactions": {
     "description": "updates recurring_transactions by adding to amount",
     "exampleResponse": {
-      "recurring_transactions": {
-        "amount": "50.00"
+      "recurring_transaction": {
+        "transaction_id": 1,
+        "user_id": 1,
+        "amount": "15.00",
+        "name": "PS Plus",
+        "category_id": 3,
+        "essential": false,
+        "is_credit": false,
+        "date_due": null,
+        "is_active": true
       }
     }
   },

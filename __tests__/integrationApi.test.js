@@ -194,7 +194,7 @@ describe('BudgetWise API', () => {
         .send(newRecurringTransaction)
         .expect(201)
         .then(({ body }) => {
-          expect(body.recTransaction).toEqual(
+          expect(body.recurring_transaction).toEqual(
             expect.objectContaining({
               transaction_id: expect.any(Number),
               user_id: 1,
@@ -218,7 +218,7 @@ describe('BudgetWise API', () => {
         .send(newRecurringAmount)
         .expect(200)
         .then(({ body }) => {
-          expect(body.updatedAmount.amount).toBe('600.00');
+          expect(body.recurring_transaction.amount).toBe('600.00');
         });
     });
   });
