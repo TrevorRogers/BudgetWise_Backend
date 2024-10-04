@@ -6,10 +6,10 @@ exports.getGroupedTransactions = (req, res, next) => {
     .then((ledgers) => {
       const transactions = ledgers.reduce(
         (acc, transaction) => {
-          if (transaction.is_essential && !transaction.is_credit) {
+          if (transaction.essential && !transaction.is_credit) {
             acc.essential.push(transaction);
           }
-          if (!transaction.is_essential && !transaction.is_credit) {
+          if (!transaction.essential && !transaction.is_credit) {
             acc.nonEssential.push(transaction);
           }
 
