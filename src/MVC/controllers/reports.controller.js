@@ -96,7 +96,6 @@ exports.getReportsData = (req, res, next) => {
         dailyBalances,
       };
 
-      console.log(reports);
       res.status(200).send({ reports });
     })
     .catch(next);

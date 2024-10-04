@@ -1,9 +1,15 @@
 const { fetchAllCurrentUserTransactions } = require('../model/ledger.model');
+const {
+  selectUserRecurringTransactions,
+} = require('../model/recurringTransactions.model');
 
 exports.getGroupedTransactions = (req, res, next) => {
   const { userId } = req.context;
-  fetchAllCurrentUserTransactions(userId)
-    .then((ledgers) => {
+  Promise.all([
+    fetchAllCurrentUserTransactions(userId),
+    selectUserRecurringTransactions(userId),
+  ])
+    .then(([ledgers, recurringTransactions]) => {
       const transactions = ledgers.reduce(
         (acc, transaction) => {
           if (transaction.essential && !transaction.is_credit) {
@@ -20,7 +26,8 @@ exports.getGroupedTransactions = (req, res, next) => {
           nonEssential: [],
         }
       );
-      res.status(200).send({ transactions });
+
+      res.status(200).send({ transactions, recurringTransactions });
     })
     .catch(next);
 };

@@ -249,6 +249,19 @@ describe('BudgetWise API', () => {
             essential: expect.any(Array),
             nonEssential: expect.any(Array),
           });
+          body.recurringTransactions.forEach((transaction) => {
+            expect(transaction).toEqual(
+              expect.objectContaining({
+                transaction_id: expect.any(Number),
+                user_id: expect.any(Number),
+                amount: expect.any(String),
+                name: expect.any(String),
+                category: expect.any(String),
+                essential: expect.any(Boolean),
+                // is_credit: expect.any(Boolean) || null,
+              })
+            );
+          });
           expect(body.transactions.essential).toBeSortedBy('created_at', {
             descending: true,
           });

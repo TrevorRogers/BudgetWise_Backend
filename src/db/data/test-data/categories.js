@@ -1,40 +1,38 @@
-/* utilities, food, entertainment, transportation, other, insurance, housing, */
-
 module.exports = [
   {
-    name: "utilities",
+    name: 'utilities',
   },
   {
-    name: "food",
+    name: 'food',
   },
   {
-    name: "entertainment",
+    name: 'entertainment',
   },
   {
-    name: "transportation",
+    name: 'transportation',
   },
   {
-    name: "housing",
+    name: 'housing',
   },
   {
-    name: "other",
+    name: 'other',
   },
   {
-    name: "health",
+    name: 'health',
   },
   {
-    name: "childcare",
+    name: 'childcare',
   },
   {
-    name: "clothing",
+    name: 'clothing',
   },
   {
-    name: "income",
+    name: 'income',
   },
   {
-    name: "groceries",
+    name: 'groceries',
   },
   {
-    name: "animal care",
+    name: 'animal care',
   },
 ];
