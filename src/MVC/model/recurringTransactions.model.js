@@ -21,12 +21,12 @@ exports.insertRecurringTransaction = (userId, body) => {
     category_id,
     essential,
     is_credit,
-    date_due,
-    is_active,
+    // date_due,
+    // is_active,
   } = body;
   return db
     .query(
-      `INSERT INTO recurring_transactions (user_id, name, amount, category_id, essential, is_credit, date_due, is_active) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      `INSERT INTO recurring_transactions (user_id, name, amount, category_id, essential, is_credit) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [
         userId,
         name,
@@ -34,8 +34,8 @@ exports.insertRecurringTransaction = (userId, body) => {
         category_id,
         essential,
         is_credit,
-        date_due,
-        is_active,
+        // date_due,
+        // is_active,
       ]
     )
     .then(({ rows }) => rows[0]);
