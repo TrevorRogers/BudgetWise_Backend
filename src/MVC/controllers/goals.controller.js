@@ -1,4 +1,9 @@
-const { fetchAllUserGoals, insertGoal, removeGoalById, updateGoalsById} = require('../model/goals.model');
+const {
+  fetchAllUserGoals,
+  insertGoal,
+  removeGoalById,
+  updateGoalsById,
+} = require('../model/goals.model');
 
 exports.getAllUserGoals = (req, res, next) => {
   const { userId } = req.context;
@@ -23,15 +28,19 @@ exports.postGoal = (req, res, next) => {
 
 exports.deleteGoalById = (req, res, next) => {
   const { goal_id } = req.params;
-  removeGoalById(goal_id).then((result) => {
-          res.status(204).send();      
-  }).catch(next)
+  removeGoalById(goal_id)
+    .then((result) => {
+      res.status(204).send();
+    })
+    .catch(next);
 };
 
 exports.patchGoals = (req, res, next) => {
-  const {goal_id} = req.params;
-  const {inc_amount_saved, target_amount} = req.body
-  updateGoalsById(goal_id, inc_amount_saved, target_amount).then((updatedGoal)=> {
-      res.status(200).send({updatedGoal})
-  })
-}
+  const { goal_id } = req.params;
+  const { inc_amount_saved } = req.body;
+  updateGoalsById(goal_id, inc_amount_saved)
+    .then((updatedGoal) => {
+      res.status(200).send({ updatedGoal });
+    })
+    .catch(next);
+};

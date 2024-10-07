@@ -39,17 +39,16 @@ exports.removeGoalById = (goal_id) => {
     });
 };
 
-exports.updateGoalsById = (goal_id, inc_amount_saved, target_amount=0) => {
+exports.updateGoalsById = (goal_id, inc_amount_saved) => {
   const queryStr = `UPDATE goals
-      SET amount_saved = amount_saved + $2,
-       target_amount = target_amount + $3
+      SET amount_saved = amount_saved + $2
       WHERE goals.goal_id = $1
-      RETURNING *;`
-      const queryVals = [goal_id, inc_amount_saved, target_amount]
+      RETURNING *;`;
+  const queryVals = [goal_id, inc_amount_saved];
 
-  return db.query(queryStr, queryVals).then(({rows}) => {
-      if (rows.length === 0) return Promise.reject({msg: "Not found"})
-          return rows[0];
-      
-  })
-}
+  return db.query(queryStr, queryVals).then(({ rows }) => {
+    if (rows.length === 0)
+      return Promise.reject({ status: 404, msg: 'Not found' });
+    return rows[0];
+  });
+};

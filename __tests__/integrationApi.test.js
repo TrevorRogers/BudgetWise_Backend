@@ -109,7 +109,6 @@ describe('BudgetWise API', () => {
         .expect(200)
         .then(({ body }) => {
           expect(body.updatedGoal.amount_saved).toBe('60.00');
-          expect(body.updatedGoal.target_amount).toBe('150.00');
         });
     });
   });
