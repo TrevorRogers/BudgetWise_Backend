@@ -1,7 +1,7 @@
-const { selectAllYearFromDateTransactions } = require('../model/ledger.model');
-const { months } = require('../../utils/constants');
-const { createShortDate } = require('../../utils/helpers');
-const { fetchAllCategories } = require('../model/category.model');
+const { selectAllYearFromDateTransactions } = require("../model/ledger.model");
+const { months } = require("../../utils/constants");
+const { createShortDate } = require("../../utils/helpers");
+const { fetchAllCategories } = require("../model/category.model");
 
 exports.getReportsData = (req, res, next) => {
   const { month } = req.params;
@@ -14,6 +14,11 @@ exports.getReportsData = (req, res, next) => {
       const monthsTransactions = annualTransactions.filter((transaction) => {
         return new Date(transaction.created_at).getMonth() === monthIndex;
       });
+
+      if (monthsTransactions.length === 0) {
+        res.status(200).send({ reports: null });
+        return;
+      }
 
       const monthsIncome = monthsTransactions.filter(
         (transaction) => transaction.is_credit
@@ -75,7 +80,7 @@ exports.getReportsData = (req, res, next) => {
 
       let runningBalance = income;
       const dailyBalances = Object.entries(dailySpending)
-        .sort((a, b) => a[0].split(' ')[1] - b[0].split(' ')[1])
+        .sort((a, b) => a[0].split(" ")[1] - b[0].split(" ")[1])
         .reduce((acc, [day, val]) => {
           runningBalance -= val.amount;
           acc[day] = {
