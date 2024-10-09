@@ -1,6 +1,6 @@
 module.exports = [
-    {
-        username: 'username',
-        password: '#$2a$10$MySII4bE33RzXjyJR9RLfO62JpO34Ho5j86rHPNHIZj8nq3k2l3zq'
-    }
-]
+  {
+    username: 'username',
+    password: '$2a$10$heZk.I.fneESqo23uBuy6u0JQMQrrIzZZHE5lOKsdR9R.6rNdAHjm',
+  },
+];

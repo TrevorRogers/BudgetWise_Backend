@@ -8,17 +8,23 @@ const overviewRouter = require('./overview-router');
 const budgetRouter = require('./budget-router');
 const reportsRouter = require('./reports-router');
 const { getApi } = require('../MVC/controllers/endpointsController');
+const authVerify = require('../middleware/authVerify');
 
 // API
 apiRouter.get('/', getApi);
 
-apiRouter.use('/categories', categoriesRouter);
-apiRouter.use('/goals', goalsRouter);
-apiRouter.use('/ledger', ledgerRouter);
-apiRouter.use('/recurring_transactions', recurringTransactionsRouter);
-apiRouter.use('/overview', overviewRouter);
-apiRouter.use('/budget', budgetRouter);
 apiRouter.use('/users', usersRouter);
-apiRouter.use('/reports', reportsRouter);
+
+apiRouter.use('/categories', authVerify, categoriesRouter);
+apiRouter.use('/goals', authVerify, goalsRouter);
+apiRouter.use('/ledger', authVerify, ledgerRouter);
+apiRouter.use(
+  '/recurring_transactions',
+  authVerify,
+  recurringTransactionsRouter
+);
+apiRouter.use('/overview', authVerify, overviewRouter);
+apiRouter.use('/budget', authVerify, budgetRouter);
+apiRouter.use('/reports', authVerify, reportsRouter);
 
 module.exports = apiRouter;
