@@ -44,6 +44,11 @@ exports.postUserLogin = (req, res, next) => {
     });
 };
 
+exports.postUserLogout = (req, res, next) => {
+  // req.context.userId = null;
+  res.status(200).send({ msg: 'User logged out' });
+};
+
 exports.postUserSignUp = (req, res, next) => {
   const { username, password } = req.body;
 
