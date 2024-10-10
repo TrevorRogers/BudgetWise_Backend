@@ -11,24 +11,73 @@ afterAll(() => {
   return db.end();
 });
 
+const headers = {
+  Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+};
+
 describe('BudgetWise API', () => {
+  describe('/api', () => {
+    test('GET: 200 serves up a json representation of all the available endpoints of the api', () => {
+      return request(app)
+        .get('/api')
+        .set(headers)
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.endpoint).toMatchObject({
+            'GET /api/categories': expect.any(Object),
+            'GET /api/goals': expect.any(Object),
+            'POST /api/goals': expect.any(Object),
+            'POST /api/ledger': expect.any(Object),
+            'GET /api/recurring_transactions': expect.any(Object),
+            'POST /api/recurring_transactions': expect.any(Object),
+            'GET /api/overview': expect.any(Object),
+            'GET /api/budget': expect.any(Object),
+            'GET /api/reports': expect.any(Object),
+            'PATCH /api/recurring_transactions': expect.any(Object),
+            'DELETE /api/goals': expect.any(Object),
+          });
+        });
+    });
+  });
+  describe('api/users', () => {
+    test('POST: 201, returns a user object containing access_token and username', () => {
+      const requestBody = { username: 'user2', password: 'password' };
+      return request(app)
+        .post('/api/users')
+        .send(requestBody)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.user).toHaveProperty('username', 'user2');
+          expect(body.user).toHaveProperty('access_token', expect.any(String));
+        });
+    });
+  });
   describe('api/users/auth', () => {
-    test('POST: 200, returns a logged in username', () => {
+    test('POST: 200, returns a user object containing access_token and username', () => {
       const requestBody = { username: 'username', password: 'password' };
       return request(app)
-        .post('/api/users/auth')
+        .post('/api/users/auth/login')
         .send(requestBody)
         .expect(200)
         .then(({ body }) => {
-          expect(body).toHaveProperty('username', expect.any(String));
-          // edit the user auth in future
+          expect(body.user).toHaveProperty('username', 'username');
+          expect(body.user).toHaveProperty('access_token', expect.any(String));
+        });
+    });
+    test('POST: 200, returns an object with msg property', () => {
+      return request(app)
+        .post('/api/users/auth/logout')
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toHaveProperty('msg', 'User logged out');
         });
     });
   });
   describe('/api/categories', () => {
-    test('200 sends an array of category objects', () => {
+    test('GET: 200 sends an array of category objects', () => {
       return request(app)
         .get('/api/categories')
+        .set(headers)
         .expect(200)
         .then(({ body }) => {
           expect(body.categories.length === 12).toBe(true);
@@ -41,9 +90,10 @@ describe('BudgetWise API', () => {
     });
   });
   describe('/api/goals', () => {
-    test('200 sends an array of goals objects', () => {
+    test('GET: 200 sends an array of goals objects', () => {
       return request(app)
         .get('/api/goals')
+        .set(headers)
         .expect(200)
         .then(({ body }) => {
           expect(body.goals.length === 2).toBe(true);
@@ -57,7 +107,7 @@ describe('BudgetWise API', () => {
           });
         });
     });
-    test('POST:201 inserts a new goal to the db and sends the new goal back to the client', () => {
+    test('POST: 201 inserts a new goal to the db and sends the new goal back to the client', () => {
       const newGoal = {
         name: 'Travel',
         target_amount: 100,
@@ -65,6 +115,7 @@ describe('BudgetWise API', () => {
       };
       return request(app)
         .post('/api/goals')
+        .set(headers)
         .send(newGoal)
         .expect(201)
         .then(({ body }) => {
@@ -80,31 +131,34 @@ describe('BudgetWise API', () => {
           );
         });
     });
-    test('DELETE:204 deletes the given goal by goal_id', () => {
-      return request(app).delete('/api/goals/1').expect(204);
+    test('DELETE: 204 deletes the given goal by goal_id', () => {
+      return request(app).delete('/api/goals/1').set(headers).expect(204);
     });
-    test('DELETE 404 responds with an appropriate status and error message when given a non-existent id', () => {
+    test('DELETE: 404 responds with an appropriate status and error message when given a non-existent id', () => {
       return request(app)
         .delete('/api/goals/999')
+        .set(headers)
         .expect(404)
         .then(({ body }) => {
           expect(body.msg).toBe('Not found');
         });
     });
-    test('DELETE:400 responds with an appropriate status and error message when given an invalid id', () => {
+    test('DELETE: 400 responds with an appropriate status and error message when given an invalid id', () => {
       return request(app)
         .delete('/api/goals/not-an-id')
+        .set(headers)
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe('Bad request');
         });
     });
-    test('PATCH:200 adds or subtracts from the amount_saved property ', () => {
+    test('PATCH: 200 adds or subtracts from the amount_saved property ', () => {
       const newAmount = {
         inc_amount_saved: 10,
       };
       return request(app)
         .patch('/api/goals/1')
+        .set(headers)
         .send(newAmount)
         .expect(200)
         .then(({ body }) => {
@@ -113,9 +167,10 @@ describe('BudgetWise API', () => {
     });
   });
   describe('/api/ledger', () => {
-    test('200 sends an array of ledger objects', () => {
+    test('GET: 200 sends an array of ledger objects', () => {
       return request(app)
         .get('/api/ledger')
+        .set(headers)
         .expect(200)
         .then(({ body }) => {
           expect(body.ledgers.length === 4).toBe(true);
@@ -131,7 +186,7 @@ describe('BudgetWise API', () => {
           });
         });
     });
-    test('POST:201 inserts a new ledger to the db and sends the new ledger back to the client', () => {
+    test('POST: 201 inserts a new ledger to the db and sends the new ledger back to the client', () => {
       const newLedger = {
         name: 'Nandos',
         category_id: 2,
@@ -141,6 +196,7 @@ describe('BudgetWise API', () => {
       };
       return request(app)
         .post('/api/ledger')
+        .set(headers)
         .send(newLedger)
         .expect(201)
         .then(({ body }) => {
@@ -161,9 +217,10 @@ describe('BudgetWise API', () => {
     });
   });
   describe('/api/recurring_transactions', () => {
-    test('200 sends an array of recurring transaction objects', () => {
+    test('200: sends an array of recurring transaction objects', () => {
       return request(app)
         .get('/api/recurring_transactions')
+        .set(headers)
         .expect(200)
         .then(({ body }) => {
           expect(body.recurring_transactions.length === 3).toBe(true);
@@ -178,7 +235,7 @@ describe('BudgetWise API', () => {
           });
         });
     });
-    test('POST:201 inserts a new recurring transaction to the db and sends the new recurring transaction back to the client', () => {
+    test('POST: 201 inserts a new recurring transaction to the db and sends the new recurring transaction back to the client', () => {
       const newRecurringTransaction = {
         name: 'PS Plus',
         amount: 15,
@@ -190,6 +247,7 @@ describe('BudgetWise API', () => {
       };
       return request(app)
         .post('/api/recurring_transactions')
+        .set(headers)
         .send(newRecurringTransaction)
         .expect(201)
         .then(({ body }) => {
@@ -208,12 +266,13 @@ describe('BudgetWise API', () => {
           );
         });
     });
-    test('PATCH:200 adds or subtracts from the amount property ', () => {
+    test('PATCH: 200 adds or subtracts from the amount property ', () => {
       const newRecurringAmount = {
         inc_amount: -100,
       };
       return request(app)
         .patch('/api/recurring_transactions/1')
+        .set(headers)
         .send(newRecurringAmount)
         .expect(200)
         .then(({ body }) => {
@@ -222,9 +281,10 @@ describe('BudgetWise API', () => {
     });
   });
   describe('/api/overview', () => {
-    test('200 sends an object containing derived financial info', () => {
+    test('GET: 200 sends an object containing derived financial info', () => {
       return request(app)
         .get('/api/overview')
+        .set(headers)
         .expect(200)
         .then(({ body }) => {
           expect(body.overview).toMatchObject({
@@ -239,9 +299,10 @@ describe('BudgetWise API', () => {
     });
   });
   describe('/api/budget', () => {
-    test('200 sends an object with transactions divided into essential and non-essential', () => {
+    test('GET: 200 sends an object with transactions divided into essential and non-essential', () => {
       return request(app)
         .get('/api/budget')
+        .set(headers)
         .expect(200)
         .then(({ body }) => {
           expect(body.transactions).toMatchObject({
@@ -271,9 +332,10 @@ describe('BudgetWise API', () => {
     });
   });
   describe('/api/reports', () => {
-    test('200: sends monthly reports data', () => {
+    test('GET: 200 sends monthly reports data', () => {
       return request(app)
         .get('/api/reports/october')
+        .set(headers)
         .expect(200)
         .then(({ body }) => {
           expect(body.reports).toMatchObject({
@@ -308,28 +370,6 @@ describe('BudgetWise API', () => {
                 transactionNames: ['movie'],
               },
             },
-          });
-        });
-    });
-  });
-  describe('/api', () => {
-    test('200: serves up a json representation of all the available endpoints of the api', () => {
-      return request(app)
-        .get('/api')
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.endpoint).toMatchObject({
-            'GET /api/categories': expect.any(Object),
-            'GET /api/goals': expect.any(Object),
-            'POST /api/goals': expect.any(Object),
-            'POST /api/ledger': expect.any(Object),
-            'GET /api/recurring_transactions': expect.any(Object),
-            'POST /api/recurring_transactions': expect.any(Object),
-            'GET /api/overview': expect.any(Object),
-            'GET /api/budget': expect.any(Object),
-            'GET /api/reports': expect.any(Object),
-            'PATCH /api/recurring_transactions': expect.any(Object),
-            'DELETE /api/goals': expect.any(Object),
           });
         });
     });

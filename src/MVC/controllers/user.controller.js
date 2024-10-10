@@ -45,7 +45,6 @@ exports.postUserLogin = (req, res, next) => {
 };
 
 exports.postUserLogout = (req, res, next) => {
-  // req.context.userId = null;
   res.status(200).send({ msg: 'User logged out' });
 };
 
@@ -71,7 +70,7 @@ exports.postUserSignUp = (req, res, next) => {
           }
         );
 
-        res.status(200).send({
+        res.status(201).send({
           user: {
             username: user.username,
             access_token: token,

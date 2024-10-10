@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const authVerify = require('./middleware/authVerify');
 
 const {
   psqlErrorHandler,
@@ -13,13 +12,6 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-// app.use((req, res, next) => {
-//   req.context = {
-//     userId: 1,
-//   };
-//   next();
-// });
 
 app.use('/api', apiRouter);
 
